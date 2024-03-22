@@ -1,2 +1,4 @@
 django==4.2.11
 langchain==0.0.150
+sentence-transformers==2.5.1
+huggingface_hub==0.19.4
