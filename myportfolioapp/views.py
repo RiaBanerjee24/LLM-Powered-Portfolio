@@ -10,7 +10,7 @@ def home(request):
         body_unicode = request.body.decode('utf-8')
         data = json.loads(body_unicode)
         query = data.get('query','')
-        
+
         # Query the chatbot backend
 
         response = chatbot.get_output(query)
