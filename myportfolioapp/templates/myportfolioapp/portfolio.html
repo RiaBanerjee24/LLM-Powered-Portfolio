@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Ria's Portfolio</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #6b003b; /* Black and dark pink gradient */
+            margin: 0;
+            padding: 0;
+            color: #ffffff; /* White text color */
+        }
+
+        .container {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            width: 300px; /* Adjusted width */
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1); /* White shadow for contrast */
+            padding: 20px;
+        }
+
+        #chat-box {
+            height: 150px; /* Adjusted height */
+            overflow-y: auto; /* Enable vertical scrolling */
+            border-bottom: 1px solid #999999; /* Gray border bottom */
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+        }
+
+        input[type="text"] {
+            width: calc(100% - 80px); /* Adjust width to fit button */
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            background-color: #333333; /* Dark gray background color */
+            color: #ffffff; /* White text color */
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #ff6b81; /* Dark pink button background color */
+            color: #ffffff; /* White button text color */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #ff8c96; /* Lighter pink button background color on hover */
+        }
+
+        .message {
+            padding: 5px;
+            margin-bottom: 5px;
+        }
+
+        .user-message {
+            background-color: #cce5ff; /* Light blue background color for user messages */
+            border-radius: 5px;
+            float: right;
+            color: blue;
+        }
+
+        .bot-message {
+            background-color: #f2f2f2; /* Light gray background color for bot messages */
+            border-radius: 5px;
+            float: left;
+            color: black;
+        }
+
+        .portfolio-text {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<script>
+    function sendMessage() {
+        var userInput = document.getElementById("user-input").value;
+        console.log("User input: ", userInput);
+        appendMessage("User", userInput); // Display user message in chat box
+
+        // Send user input to Django backend
+        fetch('/', {
+            method: 'POST',
+            body: JSON.stringify({ query: userInput }),
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken'),
+                'query': userInput
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            var chatbotResponse = data.response;
+            appendMessage("Chatbot", chatbotResponse); // Display chatbot response in chat box
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+
+        // Clear user input field
+        document.getElementById("user-input").value = "";
+    }
+
+    function appendMessage(sender, message) {
+        var chatBox = document.getElementById("chat-box");
+        var messageElement = document.createElement("div");
+        messageElement.classList.add("message");
+        messageElement.classList.add(sender === "User" ? "user-message" : "bot-message");
+        messageElement.textContent = sender + ": " + message;
+        chatBox.appendChild(messageElement);
+        // Scroll to bottom of chat box
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    // Function to get CSRF token
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+</script>
+    <Center><h2>Welcome to Ria's portfolio</h2>
+        <h3>She's still working on beutifying the front-end, but check out the Lanchachain and HuggingFace based Chatbot</h3>
+        <h3>It's trained on her resume!</h3>
+    </Center>
+
+    <div class="container">
+        <div id="chat-box"></div>
+        <form id="chat-form">
+            {% csrf_token %}
+            <input type="text" name="query" id="user-input" placeholder="Type your message...">
+            <button type="button" onclick="sendMessage()">Send</button>
+        </form>
+    </div>
+
+
+
+</body>
+</html>
+
+
+
