@@ -81,6 +81,10 @@
             text-align: center;
             margin-top: 20px;
         }
+        .image-container img {
+            width: 200px;
+            height: auto;
+}
     </style>
 </head>
 <body>
@@ -145,8 +149,10 @@
     <Center><h2>Welcome to Ria's portfolio</h2>
         <h3>She's still working on beutifying the front-end, but check out the LangChain and HuggingFace based Chatbot</h3>
         <h3>It's trained on her resume!</h3>
-<!--        <h4>As a hobby, Ria can solve a sudo puzzle that looks like this:</h4>-->
-<!--        <img src="{% static 'myportfolioapp/static/images/SudokuEvil.png' %}" alt="Your Image Description">-->
+        <h4>As a hobby, Ria can solve a sudoku puzzle that looks like this:</h4>
+        <div class="image-container">
+    <img src="{% static 'myportfolioapp/images/SudokuEvil.png' %}" alt="Your Image Description">
+</div>
     </Center>
 
     <div class="container">
