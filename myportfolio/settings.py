@@ -26,7 +26,7 @@ SECRET_KEY = os.getenv('SECRET_KEY','django-insecure-)7m*r-^g!rz4om_ckt3#=ca6axl
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG','True') == 'True'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['sea-turtle-app-bi47c.ondigitalocean.app']
 
 
 # Application definition
